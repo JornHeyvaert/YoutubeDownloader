@@ -5,8 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YoutubeDownloader"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="YoutubeDownloader" Height="388.778" Width="525">
     <Grid>
-        
+        <TextBlock x:Name="txtInformation" HorizontalAlignment="Left" Margin="51,13,0,0" TextWrapping="Wrap"
+                   Text="Download Youtube video's or audio file by using the URL. Downloading can take a while depending on the length of the video. Please be patient and restart the application when nothing happens."
+                   VerticalAlignment="Top" Width="431" Height="55"/>
+        <Label x:Name="lblSourceURL" Content="Youtube URL:" HorizontalAlignment="Left" Margin="73,75,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtSourceURL" HorizontalAlignment="Left" Height="52" Margin="174,75,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="235"/>
+        <Label x:Name="lblDestinationURL" Content="Destination Path:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="73,139,0,0"/>
+        <TextBox x:Name="txtDestinationURL" HorizontalAlignment="Left" Height="42" Margin="174,139,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="235"/>
+        <Button x:Name="btnBrowse" Content="Browse" HorizontalAlignment="Left" Margin="422,140,0,0" VerticalAlignment="Top" Width="75" Click="btnBrowse_Click"/>
+        <Button x:Name="btnDownload" Content="Download" HorizontalAlignment="Left" Margin="215,230,0,0" VerticalAlignment="Top" Width="75" Click="btnDownload_Click"/>
+        <RadioButton x:Name="rbVideo" Content="Video" HorizontalAlignment="Left" Margin="122,199,0,0" VerticalAlignment="Top" GroupName="DownloadSort"/>
+        <RadioButton x:Name="rbWAV" Content="Audio" HorizontalAlignment="Left" Margin="294,199,0,0" VerticalAlignment="Top" GroupName="DownloadSort"/>
+        <TextBlock x:Name="lblResult" HorizontalAlignment="Left" Margin="17,255,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="490" Height="90" />
     </Grid>
 </Window>
