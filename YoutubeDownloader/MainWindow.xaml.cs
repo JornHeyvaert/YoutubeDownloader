@@ -10,8 +10,6 @@ namespace YoutubeDownloader
     /// </summary>
     public partial class MainWindow : Window
     {
-        public WebBrowser webBrowser1 = new WebBrowser();
-
         public MainWindow()
         {
             InitializeComponent();
