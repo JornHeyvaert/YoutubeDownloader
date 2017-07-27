@@ -44,16 +44,18 @@ namespace YoutubeDownloader
                 {
                     VideoInfo video = DownloadAACFile(sourceURL, destinationURL);
 
+                    string videoTitle = RemoveInvalidCharacters(video.Title);
+
                     // convert "back" to WAV
                     // create media foundation reader to read the AAC encoded file
-                    using (MediaFoundationReader reader = new MediaFoundationReader(Path.Combine(destinationURL, video.Title + audioHelperExtension)))
+                    using (MediaFoundationReader reader = new MediaFoundationReader(Path.Combine(destinationURL, videoTitle + audioHelperExtension)))
                     {
                         // resample the file to PCM with same sample rate, channels and bits per sample
                         using (ResamplerDmoStream resampledReader = new ResamplerDmoStream(reader,
                             new WaveFormat(reader.WaveFormat.SampleRate, reader.WaveFormat.BitsPerSample, reader.WaveFormat.Channels)))
                         {
                             // create WAVe file
-                            using (WaveFileWriter waveWriter = new WaveFileWriter(Path.Combine(destinationURL, video.Title + audioFinalExtension), resampledReader.WaveFormat))
+                            using (WaveFileWriter waveWriter = new WaveFileWriter(Path.Combine(destinationURL, videoTitle + audioFinalExtension), resampledReader.WaveFormat))
                             {
                                 // copy samples
                                 resampledReader.CopyTo(waveWriter);
@@ -62,9 +64,9 @@ namespace YoutubeDownloader
                     }
 
                     // delete aac file from directory
-                    File.Delete(Path.Combine(destinationURL, video.Title + audioHelperExtension));
+                    File.Delete(Path.Combine(destinationURL, videoTitle + audioHelperExtension));
 
-                    return $"{video.Title} is saved succesfully at the following location: {Path.Combine(destinationURL, video.Title + audioFinalExtension)}";
+                    return $"{videoTitle} is saved succesfully at the following location: {Path.Combine(destinationURL, videoTitle + audioFinalExtension)}";
                 });
             }
             catch (Exception ex)
@@ -86,11 +88,20 @@ namespace YoutubeDownloader
                 DownloadUrlResolver.DecryptDownloadUrl(video);
             }
 
-            var videoDownloader = new VideoDownloader(video, Path.Combine(destinationURL, video.Title + video.AudioExtension));
+            string videoTitle = RemoveInvalidCharacters(video.Title);
+
+            var videoDownloader = new VideoDownloader(video, Path.Combine(destinationURL, videoTitle + video.AudioExtension));
 
             videoDownloader.Execute();
             return video;
         }
+
+        private static string RemoveInvalidCharacters(string videoTitle)
+        {
+            return videoTitle.Contains("|") ? videoTitle.Replace('|', '-') : videoTitle;
+        }
         #endregion
+
+
     }
 }
